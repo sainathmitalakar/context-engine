@@ -99,7 +99,8 @@ Context Engine aims to become the foundation for intelligent, self-learning DevO
 
 The goal: DevOps that thinks.
 
-Sainath Mitalakar
+Sainath Shivaji Mitalakar
+
 Top 25 Global DevOps Expert | Top 50 IT Leadership | Top 100 Generative AI
 🌐 https://www.linkedin.com/in/sainathmitalakar/
  
