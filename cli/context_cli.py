@@ -1,5 +1,7 @@
 import requests
 import sys
+from core.memory import load_memory, save_memory
+
 
 def get_recent_commits(repo, limit=5):
     """Fetch recent commits from a GitHub repository."""
@@ -30,14 +32,12 @@ def get_workflow_status(repo):
     return {run["head_sha"][:7]: (run.get("conclusion") or "IN_PROGRESS") for run in runs}
 
 def show_context(repo):
-    """Display commits with related workflow status."""
     print(f"\nContext Timeline for: {repo}\n{'-'*60}")
     commits = get_recent_commits(repo)
     workflows = get_workflow_status(repo)
 
-    if not commits:
-        print("No commits found.")
-        return
+    memory = load_memory()
+    new_data = {}
 
     for c in commits:
         sha = c["sha"]
@@ -46,10 +46,16 @@ def show_context(repo):
         msg = c["message"]
         status = workflows.get(sha, "NO_WORKFLOW")
         print(f"[{date}] {author} - {msg} ({sha}) [{status}]")
+        new_data[sha] = {"author": author, "message": msg, "status": status}
 
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python cli/context_cli.py <owner/repo>")
-        sys.exit(1)
-    repo = sys.argv[1]
-    show_context(repo)
+    added, updated = detect_changes(memory, new_data)
+
+    if added or updated:
+        print("\nChanges since last check:")
+        for sha in added:
+            print(f" + New commit: {new_data[sha]['message']} ({sha})")
+        for sha in updated:
+            print(f" * Updated workflow: {new_data[sha]['message']} ({sha}) [{new_data[sha]['status']}]")
+        save_memory(new_data)
+    else:
+        print("\nNo new changes. Everything is up-to-date.")
