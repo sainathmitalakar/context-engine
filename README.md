@@ -20,20 +20,8 @@ Memory Engine — Stores previous results and detects new commits or workflow up
 Learning System — Identifies contributor patterns and predicts next likely activities (feature, refactor, fix).
 CLI Interface — Simple terminal command to get real-time intelligence on any GitHub repository.
 
-context-engine/
-│
-├── cli/
-│   └── context_cli.py        # Command-line interface (entry point)
-│
-├── core/
-│   ├── memory.py             # Lightweight persistent memory storage
-│   ├── intelligence.py       # Commit summarization and activity analysis
-│   └── learning.py           # Predictive behavior and pattern learning
-│
-├── data/
-│   └── memory.json           # Local memory state (auto-managed)
-│
-└── README.md
+<img width="464" height="283" alt="image" src="https://github.com/user-attachments/assets/69514869-3c09-414a-9eb8-3183296aa263" />
+
 
 
 Written in Python 3.x
